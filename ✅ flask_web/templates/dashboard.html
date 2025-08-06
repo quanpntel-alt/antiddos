@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DDoS Cluster Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>DDoS Cluster Dashboard</h1>
+
+    <h2>📦 Cụm DDoS đã bị chặn</h2>
+    <table border="1">
+        <tr>
+            <th>Cluster ID</th>
+            <th>Số IP</th>
+            <th>TTL TB</th>
+            <th>Tổng gói</th>
+            <th>Tổng size</th>
+            <th>Timestamp</th>
+            <th>IP</th>
+        </tr>
+        {% for c in clusters %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.count }}</td>
+            <td>{{ c.avg_ttl }}</td>
+            <td>{{ c.total_pkt }}</td>
+            <td>{{ c.total_size }}</td>
+            <td>{{ c.timestamp }}</td>
+            <td><pre>{{ c.ips | join('\n') }}</pre></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>📊 Biểu đồ TTL trung bình theo cụm</h2>
+    <canvas id="ttlChart" width="400" height="150"></canvas>
+
+    <h2>📊 Biểu đồ Packet Count theo cụm</h2>
+    <canvas id="sizeChart" width="400" height="150"></canvas>
+
+    <script>
+        const ttlCtx = document.getElementById("ttlChart").getContext("2d");
+        const ttlChart = new Chart(ttlCtx, {
+            type: "bar",
+            data: {
+                labels: {{ ttl_labels | tojson }},
+                datasets: [{
+                    label: "TTL trung bình",
+                    data: {{ ttl_values | tojson }},
+                    backgroundColor: "rgba(54, 162, 235, 0.6)"
+                }]
+            }
+        });
+
+        const sizeCtx = document.getElementById("sizeChart").getContext("2d");
+        const sizeChart = new Chart(sizeCtx, {
+            type: "bar",
+            data: {
+                labels: {{ ttl_labels | tojson }},
+                datasets: [{
+                    label: "Tổng gói tin",
+                    data: {{ size_values | tojson }},
+                    backgroundColor: "rgba(255, 99, 132, 0.6)"
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
