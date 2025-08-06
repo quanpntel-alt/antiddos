@@ -34,9 +34,7 @@ pip install -r requirements.txt
 
 🚀 Khởi chạy
 1. Chạy tool phân tích + chặn IP
-bash
-Sao chép
-Chỉnh sửa
+
 python cluster_engine.py
 Tool sẽ:
 
@@ -49,30 +47,20 @@ Lưu cụm bị chặn vào SQLite (ddos.db)
 Chặn IP theo cụm
 
 2. Khởi chạy giao diện dashboard Flask
-bash
-Sao chép
-Chỉnh sửa
+
 cd flask_web
 python app.py
 Truy cập tại: http://localhost:8080
 Dashboard hiển thị: cụm DDoS, TTL trung bình, IP bị chặn, biểu đồ thống kê.
 
 🧪 Mô phỏng DDoS để test
-bash
-Sao chép
-Chỉnh sửa
+
 cd test
 sudo python spoof_udp_gen.py
 Hoặc dùng hping3:
 
-bash
-Sao chép
-Chỉnh sửa
 sudo hping3 --flood --udp -a 1.2.3.4 -p ++ --rand-source 192.168.1.100
 📁 Cấu trúc thư mục
-bash
-Sao chép
-Chỉnh sửa
 ddos_cluster_blocker/
 ├── cluster_engine.py           # Gom cụm + chặn IP
 ├── suricata_reader.py         # Đọc TTL/size từ eve.json
